@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
+    <link rel="stylesheet" href="style/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script>
+        var module = angular.module('myModule', []);
+        module.controller('myController', function ($scope, $http) {
+            $scope.jsonArrayCity;
+            $scope.jsonArraySome;
+
+            $scope.influfinderFieldChanged = function () {
+                let fields = $scope.influfinderFieldSelected;
+                let url = "/fetch-all-cities?fields=" + fields;
+                $scope.jsonArrayCity = null;
+                $scope.influFinderCity = null;
+                $http.get(url).then(getData, getErr);
+                function getData(resp) {
+                    $scope.jsonArrayCity = resp.data;
+                }
+                function getErr() {
+                    alert("Error Occurred");
+                }
+            };
+
+            $scope.influFinderSearchBtnClicked = function () {
+                let fields = $scope.influfinderFieldSelected;
+                let city = $scope.influFinderCity;
+                let url = "/fetch-influencers-field-city?fields=" + fields + "&city=" + city;
+                $http.get(url).then(getData, getErr);
+                function getData(resp) {
+                    $scope.jsonArraySome = resp.data;
+                }
+                function getErr() {
+                    alert("Error Occurred");
+                }
+            };
+
+            $scope.showAllCards = function () {
+                let url = "/fetch-all-influencers";
+                $scope.jsonArraySome = null;
+                $http.get(url).then(getData, getErr);
+                function getData(resp) {
+                    $scope.jsonArraySome = resp.data;
+                }
+                function getErr() {
+                    alert("Error Occurred");
+                }
+            };
+
+            $scope.influFinderSearchByNameBtnClicked = function () {
+                let iname = $scope.inflFinderName;
+                let url = "/fetch-influencers-name?iname=" + iname;
+                $http.get(url).then(getData, getErr);
+                function getData(resp) {
+                    $scope.jsonArraySome = resp.data;
+                }
+                function getErr() {
+                    alert("Error Occurred");
+                }
+            };
+
+            $scope.viewProfile = function (index) {
+                $scope.fullDetailObj = $scope.jsonArraySome[index];
+                // Debugging statement
+                console.log("Selected Profile:", $scope.fullDetailObj);
+            };
+
+            $scope.showAllCards();
+        });
+        $(document).ready(function () {
+            $("#btnLogout").click(function () {
+                localStorage.removeItem("activeuser");
+                location.href = "/index";
+                return;
+            });
+            $("#btnDashBoard").click(function () {
+                location.href = "/client-dash.html";
+                return;
+            });
+        })
+    </script>
+</head>
+
+<body ng-controller="myController" ng-app="myModule">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" data-bs-theme="dark" style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);" id="home">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">logo</a>
+          <a href="/index" class="navbar-brand">www.promodash.com</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div
+            class="collapse navbar-collapse"
+            id="navbarNav"
+            style="display: flex; justify-content: flex-end"
+          >
+            <!-- <ul class="navbar-nav"> -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item lead">
+                    <button
+                      style="
+                        background-color: transparent;
+                        border: 0;
+                        padding-top: 8px;
+                      "
+                      type="button"
+                      id="btnDashBoard"
+                      name="btnDashBoard"
+                    >
+                      Dashboard
+                    </button>
+                  </li>
+                  <li class="nav-item lead">
+                    <button
+                      style="
+                        background-color: transparent;
+                        border: 0;
+                        padding-top: 8px;
+                      "
+                      type="button"
+                      id="btnLogout"
+                      name="btnLogout"
+                    >
+                      LogOut
+                    </button>
+                    
+                  </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    <center>
+        <h1 style="margin-top: 65px;">HELLO INFLUENCERS</h1>
+        <hr>
+        <div class="container" style="margin-top: 30px">
+            <!-- Search Fields -->
+            <div class="row">
+                <div class="col-md-10 offset-md-1">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <label for="influfinderField" class="form-label" style="margin-top: 5px; float: right;">Field</label>
+                        </div>
+                        <div class="col-md-3">
+                            <select ng-model="influfinderFieldSelected" ng-change="influfinderFieldChanged()" id="influfinderField" class="form-select" name="influfinderField" required>
+                                <option selected disabled>Choose...</option>
+                                <option>Fitness</option>
+                                <option>Singing</option>
+                                <option>Dancing</option>
+                                <option>Cooking</option>
+                                <option>Vlogger</option>
+                                <option>Artist</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <label for="influFinderCity" class="form-label" style="margin-top: 5px; float: right;">City</label>
+                        </div>
+                        <div class="col-md-3">
+                            <select id="influFinderCity" ng-model="influFinderCity" class="form-select" name="influFinderCity" required>
+                                <option ng-repeat="obj in jsonArrayCity" value="{{obj.city}}">{{obj.city}}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="button" class="btn btn-primary" style="float: left;" id="influFinderBtn" value="Search" ng-click="influFinderSearchBtnClicked()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <!-- Search By Name -->
+            <div class="row">
+                <div class="col-md-10 offset-md-1">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <label for="inflFinderName" class="form-label" style="float: right;">Name</label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="inflFinderName" ng-model="inflFinderName" name="inflFinderName">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="button" class="btn btn-primary" style="float: right;" id="inflFinderSearchByName" value="Search By Name" ng-click="influFinderSearchByNameBtnClicked()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <!-- Influencers List -->
+            <div class="row">
+                <div class="col-md-10 offset-md-1">
+                    <div class="row">
+                        <div class="col-md-3" ng-repeat="obj in jsonArraySome">
+                            <div class="card" style="box-shadow: 0 3px 4px rgba(0, 0, 0, 0.367);">
+                                <img src="uploads/{{obj.picpath}}" style="height: 260px;" class="card-img-top" alt="...">
+                                <ul>
+                                    <h3 style="list-style-type: none; text-align: left;">{{obj.iname}}</h3>
+                                    <li style="list-style-type: none; text-align: left;font-size: 15px;">{{obj.gender}}</li><br>
+                                    <li style="list-style-type: none; text-align: left"><a href="#" class="card-link">Instagram</a><br>
+                                        <a href="#" class="card-link">Youtube</a></li>
+                                    <input type="button" style="margin-top: 15px; float: left;" data-bs-toggle="modal" data-bs-target="#moreInfoModal" value="More" class="btn btn-primary" ng-click="viewProfile($index)">
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="moreInfoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" style="border:1px solid black">
+                <div class="modal-dialog" style="width: 400px;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Know Me</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div style="width:inherit; height:180px;">
+                                <div>
+                                    <img src="uploads/{{fullDetailObj.picpath}}" width="150" height="150" style="float:left">
+                                </div>
+                                <div style="margin-left:170px;">
+                                    <h3>{{fullDetailObj.iname}}</h3>
+                                    <h5>{{fullDetailObj.fields}}</h5>
+                                    <br>
+                                </div>
+                            </div>
+                            <div style=" text-align: left;">
+                                <h6 style="float: left;">Full Name : </h6><p> {{fullDetailObj.iname}} </p>
+                                
+                                <h6 style="float: left;">DOB : </h6><p> {{fullDetailObj.dob}} </p>
+                                
+                                <h6 style="float: left;">Email : </h6><p>{{fullDetailObj.emailid}} </p>
+                                
+                                <h6 style="float: left;">Gender : </h6><p> {{fullDetailObj.gender}} </p>
+                                
+                                <h6 style="float: left;">City : </h6><p> {{fullDetailObj.city}} </p>
+                                
+                                <h6 style="float: left;">Address : </h6><p> {{fullDetailObj.address}} </p>
+                                
+                                <div>
+                                    <div style="float:left;">
+                                        <a href="{{fullDetailObj.iname}}">
+                                            <i class="fa-brands fa-instagram" style="color: #e449ca; font-size:30px;"></i>
+                                        </a>
+                                        <!-- <label for="inputCity" class="form-label">Insta</label> -->
+                                    </div>
+                                    <div style="float:left;margin-left: 30px;">
+                                        <a href="{{fullDetailObj.youtube}}">
+                                            <i class="fa-brands fa-youtube" style="color: #f00509; font-size:30px;"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </center>
+</body>
+
+</html>
+

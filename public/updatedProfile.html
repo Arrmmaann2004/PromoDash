@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style/style.css" />
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>  
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="style/style.css">
+    <script>
+        $(document).ready(function () {
+          let active = localStorage.getItem("activeuser");
+          
+          $("#btnLogout").click(function () {
+            localStorage.removeItem("activeuser");
+            location.href = "/index";
+            return;
+          })
+          $("#btnDashBoard").click(function () {
+            location.href = "/infldash.html";
+            return;
+          })
+          $("#btnProfile").click(function () {
+            location.href = "/infprofile.html";
+            return;
+          })
+        });
+    </script>
+  </head>
+  <body>
+    <!-- <h1>Profile updated successfully</h1> -->
+     <div class="blur-background"></div>
+    <div class="containerbody">
+        <nav
+      class="navbar navbar-expand-lg bg-body-tertiary fixed-top"
+      data-bs-theme="dark"
+      style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)"
+      id="home"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+          <img
+            src="uploads/logoPromo.png"
+            style="width: 5.89vh; height: 4.79vh"
+            alt=""
+          />
+        </a>
+        <a href="/index" class="navbar-brand">www.promodash.com</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse"
+          id="navbarNav"
+          style="display: flex; justify-content: flex-end"
+        >
+          <!-- <ul class="navbar-nav"> -->
+          <ul class="nav nav-tabs">
+            <li class="nav-item lead">
+              <button
+                style="
+                  background-color: transparent;
+                  border: 0;
+                  padding-top: 8px;
+                "
+                type="button"
+                id="btnDashBoard"
+                name="btnDashBoard"
+              >
+                Dashboard
+              </button>
+            </li>
+            <li class="nav-item lead">
+              <button
+                style="
+                  background-color: transparent;
+                  border: 0;
+                  padding-top: 8px;
+                "
+                type="button"
+                id="btnProfile"
+                name="btnProfile"
+              >
+                Profile
+              </button>
+            </li>
+            <li class="nav-item lead">
+              <button
+                style="
+                  background-color: transparent;
+                  border: 0;
+                  padding-top: 8px;
+                "
+                type="button"
+                id="btnLogout"
+                name="btnLogout"
+              >
+                LogOut
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container d-flex vh-100 justify-content-center align-items-center font-weight-bold " >
+      <h1 class="lead display-3  text-white text-justify">Server Processed Your Request Successfullyyy!!!!</h1>
+    </div>
+    </div>
+    <footer class="bg-dark text-light text-center py-3 fixed-bottom">
+        <p>&copy; 2024 Promodash - All rights reserved.</p>
+    </footer>
+  </body>
+</html>
