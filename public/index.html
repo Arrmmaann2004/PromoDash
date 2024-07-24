@@ -62,7 +62,7 @@
           // event.preventDefault();
           let obj = {
             type: "get",
-            url: "/forgot-password-process",
+            url: "https://promodash-0sl4.onrender.com/forgot-password-process",
             data: {
               logintxtEmail: $("#logintxtEmail").val(),
             },
@@ -121,15 +121,15 @@
               $("#emailExist").html("Already exists!!!");
               $("#emailExist").css("color", "red");
               $("#txtPwd").prop("disabled", true);
-            } else {
+            } else if(resp === "Available") {
               // $("#emailExist").html("Available");
               $("#emailExist").css("display", "none");
               $("#txtPwd").prop("disabled", false);
             } 
-            // else if(txtEmail == null){
-            //   $("#emailExist").css("display", "none");
-            //   $("#txtPwd").prop("disabled", true);
-            // }
+            else if(txtEmail == null){
+              $("#emailExist").css("display", "none");
+              $("#txtPwd").prop("disabled", true);
+            }
           });
         
 
