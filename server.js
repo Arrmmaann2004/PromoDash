@@ -49,9 +49,24 @@ app.get("/signup-process",function(req,resp){
     mysql.query("insert into users values(?,?,?,?)",[req.query.txtEmail,req.query.txtPwd,req.query.utype,intStatus],function(err){
         if(err!=null)
             resp.send(err.message);
-        else
+        else{
+            let mail = req.query.txtEmail;
             resp.send("Data inserted");
-            // alert("Data inserted");
+            let reciever = {
+                from: "armansingla02@gmail.com",
+                to: mail,
+                subject: "Successfully Registered",
+                text: "Congratulations You have successfully registered on PromoDash...."
+            }
+            aunthentication.sendMail(reciever, function(err, info) {
+                if (err) {
+                    resp.send(err.message);
+                }
+                else
+                    resp.send("Email sent");
+            }); 
+    
+        }
 })
     return;
 });
