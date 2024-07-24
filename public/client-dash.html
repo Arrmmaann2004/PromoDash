@@ -26,6 +26,12 @@
       $(document).ready(function () {
         let active = localStorage.getItem("activeuser");
         $("#name").html(active.slice(0, active.indexOf("@")));
+
+        $("#btnLogout").click(function () {
+          localStorage.removeItem("activeuser");
+          location.href = "/index.html";
+          return;
+        });
       });
     </script>
     <style>
@@ -54,6 +60,7 @@
         color: #6c757d;
       }
     </style>
+
   </head>
   <body>
     <div class="blur-background"></div>
