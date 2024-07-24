@@ -175,9 +175,9 @@ app.post("/save-profile",function(req,resp){
     
     mysql.query("insert into iprofile values(?,?,?,?,?,?,?,?,?,?,?,?,?)",[mail,name,gender,dob,address,city,contact,str,insta,fb,youtube,others,fileName],function(err){
         if (err == null) {
-            resp.json({ success: true });
+            resp.redirect("updatedProfile.html");
         } else {
-            resp.json({ success: false, message: "Already Saved with this email id" });
+            resp.send("Already Exists");
         }
     })
    
