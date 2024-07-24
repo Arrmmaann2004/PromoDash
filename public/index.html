@@ -108,7 +108,7 @@
 
           let obj ={
             type: "get",
-            url: "/email-check-process",
+            url: "https://promodash-0sl4.onrender.com/email-check-process",
             data: {
               txtEmail: $("#txtEmail").val(),
               // txtPwd: $("#txtPwd").val(),
@@ -157,10 +157,10 @@
           $.ajax(obj).done(function (resp) {
             if (resp === "Blocked by the admin") alert(resp);
             else if (resp === "influencer") {
-              location.href = "infldash.html";
+              location.href = "/infldash.html";
               localStorage.setItem("activeuser", $("#logintxtEmail").val());
             } else if (resp === "client") {
-              location.href = "client-dash.html";
+              location.href = "/client-dash.html";
               localStorage.setItem("activeuser", $("#logintxtEmail").val());
             }
             $("#loginModal").modal("hide");
