@@ -16,37 +16,66 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/style.css" />
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
+    <link rel="stylesheet" href="style/style.css" />
+    <style>
+      .form-container{
+        max-width: 800px;
+        margin-top: 16vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 70vh;
+      }
+    </style>
     <script>
-        $(document).ready(function(){
-            $("#btnSearchClient").click(function(){
-                let obj = {
-                    type : "get",
-                    url : "/client-profile-search-process",
-                    data : {
-                        txtClientEmail : $("#txtClientEmail").val()
-                    }
-                }
-
-                $.ajax(obj).done(function(resp){
-                    $("#txtClientName").val(resp[0].cname);
-                    $("#txtClientState").val(resp[0].state);
-                    $("#txtClientCity").val(resp[0].city);
-                    $("#txtClientType").val(resp[0].org);
-                    $("#txtClientContact").val(resp[0].mobile);
-                })
-
-            });
+      $(document).ready(function () {
+        $("#btnLogout").click(function () {
+          localStorage.removeItem("activeuser");
+          location.href = "/index";
+          return;
         });
+
+        $("#btnDashBoard").click(function () {
+          location.href = "/client-dash.html";
+          return;
+        });
+
+        $("#btnSearchClient").click(function () {
+          let obj = {
+            type: "get",
+            url: "/client-profile-search-process",
+            data: {
+              txtClientEmail: $("#txtClientEmail").val(),
+            },
+          };
+
+          $.ajax(obj).done(function (resp) {
+            $("#txtClientName").val(resp[0].cname);
+            $("#txtClientState").val(resp[0].state);
+            $("#txtClientCity").val(resp[0].city);
+            $("#txtClientType").val(resp[0].org);
+            $("#txtClientContact").val(resp[0].mobile);
+          });
+        });
+      });
     </script>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" data-bs-theme="dark" style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);" id="home">
+    <div class="blur-background"></div>
+    <div class="containerbody" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+      <nav
+      class="navbar navbar-expand-lg bg-body-tertiary fixed-top"
+      data-bs-theme="dark"
+      style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255)"
+      id="home"
+    >
       <div class="container-fluid">
         <a class="navbar-brand" href="#">logo</a>
         <a href="/index" class="navbar-brand">www.promodash.com</a>
@@ -68,96 +97,155 @@
         >
           <!-- <ul class="navbar-nav"> -->
           <ul class="nav nav-tabs">
-            <li>
-              <!-- <button type="button" class="btn btn-outline-primary" id="login" data-bs-toggle="modal" data-bs-target="#loginModal" name="login">
-                  Login
-              </button> -->
+            <li class="nav-item lead">
+              <button
+                style="
+                  background-color: transparent;
+                  border: 0;
+                  padding-top: 8px;
+                "
+                type="button"
+                id="btnDashBoard"
+                name="btnDashBoard"
+              >
+                Dashboard
+              </button>
+            </li>
+            <li class="nav-item lead">
+              <button
+                style="
+                  background-color: transparent;
+                  border: 0;
+                  padding-top: 8px;
+                "
+                type="button"
+                id="btnLogout"
+                name="btnLogout"
+              >
+                LogOut
+              </button>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-    <div class="container">
-        <center>
-            <h1 style="margin-top: 65px;">Client Profile Page</h1>
-        </center>
-        <hr>
-            <form class="row g-4">
-                <div class="col-md-9">
-                  <label for="txtClientEmail" class="form-label mt-3">Email</label>
-                  <input type="email" class="form-control mt-1" id="txtClientEmail" placeholder="e.john@example.com">
-                </div>
-                <div class="col-md-3">
-                    <input type="button" class="btn btn-primary mt-5" id="btnSearchClient" value="Search">
-                </div>
-                <div class="col-md-4">
-                  <label for="txtClientName" class="form-label">Name</label>
-                  <input type="text" class="form-control" id="txtClientName">
-                </div>
-                <div class="col-md-4">
-                    <label for="txtClientState">State</label>
-                    <input list="indianStates" id="txtClientState" name="state" class="form-control mt-2">
-                    
-                    <datalist id="indianStates">
-                        <option value="Andhra Pradesh">
-                        <option value="Arunachal Pradesh">
-                        <option value="Assam">
-                        <option value="Bihar">
-                        <option value="Chhattisgarh">
-                        <option value="Goa">
-                        <option value="Gujarat">
-                        <option value="Haryana">
-                        <option value="Himachal Pradesh">
-                        <option value="Jharkhand">
-                        <option value="Karnataka">
-                        <option value="Kerala">
-                        <option value="Madhya Pradesh">
-                        <option value="Maharashtra">
-                        <option value="Manipur">
-                        <option value="Meghalaya">
-                        <option value="Mizoram">
-                        <option value="Nagaland">
-                        <option value="Odisha">
-                        <option value="Punjab">
-                        <option value="Rajasthan">
-                        <option value="Sikkim">
-                        <option value="Tamil Nadu">
-                        <option value="Telangana">
-                        <option value="Tripura">
-                        <option value="Uttar Pradesh">
-                        <option value="Uttarakhand">
-                        <option value="West Bengal">
-                        <option value="Andaman and Nicobar Islands">
-                        <option value="Chandigarh">
-                        <option value="Dadra and Nagar Haveli and Daman and Diu">
-                        <option value="Delhi">
-                        <option value="Lakshadweep">
-                        <option value="Puducherry">
-                    </datalist>
-                    
-                </div>
-                <div class="col-md-4">
-                  <label for="txtClientCity" class="form-label">City</label>
-                  <input type="text" class="form-control" id="txtClientCity">
-                </div>
-                <div class="col-md-6">
-                  <label for="txtClientType" class="form-label">Individual/Organisation</label>
-                  <input type="text" class="form-control" id="txtClientType">
-                </div>
-                <div class="col-md-6">
-                  <label for="txtClientContact" class="form-label">Contact Number</label>
-                  <input type="text" class="form-control" id="txtClientContact">
-                </div>
-                <div class="col-md-1" style="margin-top: 20px">
-                    <button type="submit" class="btn btn-primary" formaction="/save-client-profile">Save</button>
-                  </div>
-                  <div class="col-md-2" style="margin-top: 20px">
-                    <button type="submit" class="btn btn-primary" formaction="/update-client-profile">
-                      Update
-                    </button>
-                  </div>
-              </form>
-        
+    <div class="container form-container" style="background-color: rgba(255, 255, 255, 0.74); border-radius: 5%; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.522);">
+      <form class="row g-4">
+        <h2 class="lead display-4 text-center">Client Profile Page</h2>
+        <hr />
+        <div class="row">
+          <div class="col-md-10 offset-md-1">
+            <div class="row">
+              <div class="col-md-9">
+                <label for="txtClientEmail" class="form-label mt-3"
+                  >Email</label
+                >
+                <input
+                  type="email"
+                  class="form-control mt-1 mb-4"
+                  id="txtClientEmail"
+                  placeholder="e.john@example.com"
+                />
+              </div>
+              <div class="col-md-3">
+                <input
+                  type="button"
+                  class="btn btn-primary mt-5 "
+                  id="btnSearchClient"
+                  value="Search"
+                />
+              </div>
+              <div class="col-md-4">
+                <label for="txtClientName" class="form-label">Name</label>
+                <input type="text" class="form-control mb-4" id="txtClientName" />
+              </div>
+              <div class="col-md-4">
+                <label for="txtClientState">State</label>
+                <input
+                  list="indianStates"
+                  id="txtClientState"
+                  name="state"
+                  class="form-control mt-2"
+                />
+
+                <datalist id="indianStates">
+                  <option value="Andhra Pradesh"></option>
+                  <option value="Arunachal Pradesh"></option>
+                  <option value="Assam"></option>
+                  <option value="Bihar"></option>
+                  <option value="Chhattisgarh"></option>
+                  <option value="Goa"></option>
+                  <option value="Gujarat"></option>
+                  <option value="Haryana"></option>
+                  <option value="Himachal Pradesh"></option>
+                  <option value="Jharkhand"></option>
+                  <option value="Karnataka"></option>
+                  <option value="Kerala"></option>
+                  <option value="Madhya Pradesh"></option>
+                  <option value="Maharashtra"></option>
+                  <option value="Manipur"></option>
+                  <option value="Meghalaya"></option>
+                  <option value="Mizoram"></option>
+                  <option value="Nagaland"></option>
+                  <option value="Odisha"></option>
+                  <option value="Punjab"></option>
+                  <option value="Rajasthan"></option>
+                  <option value="Sikkim"></option>
+                  <option value="Tamil Nadu"></option>
+                  <option value="Telangana"></option>
+                  <option value="Tripura"></option>
+                  <option value="Uttar Pradesh"></option>
+                  <option value="Uttarakhand"></option>
+                  <option value="West Bengal"></option>
+                  <option value="Andaman and Nicobar Islands"></option>
+                  <option value="Chandigarh"></option>
+                  <option
+                    value="Dadra and Nagar Haveli and Daman and Diu"
+                  ></option>
+                  <option value="Delhi"></option>
+                  <option value="Lakshadweep"></option>
+                  <option value="Puducherry"></option>
+                </datalist>
+              </div>
+              <div class="col-md-4">
+                <label for="txtClientCity" class="form-label">City</label>
+                <input type="text" class="form-control" id="txtClientCity" />
+              </div>
+              <div class="col-md-6">
+                <label for="txtClientType" class="form-label"
+                  >Individual/Organisation</label
+                >
+                <input type="text" class="form-control" id="txtClientType" />
+              </div>
+              <div class="col-md-6">
+                <label for="txtClientContact" class="form-label"
+                  >Contact Number</label
+                >
+                <input type="text" class="form-control" id="txtClientContact" />
+              </div>
+              <div class="col-md-1" style="margin-top: 20px">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  formaction="/save-client-profile"
+                >
+                  Save
+                </button>
+              </div>
+              <div class="col-md-2" style="margin-top: 20px">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  formaction="/update-client-profile"
+                >
+                  Update
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
     </div>
   </body>
 </html>
