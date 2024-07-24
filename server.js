@@ -292,14 +292,14 @@ var aunthentication = nodemailer.createTransport({
 });
 
 app.get("/forgot-password-process",function(req,resp){
-    let mail = req.query.logintxtEmail;
+    let email = req.query.logintxtEmail;
 
-    mysql.query("select pwd from users where email = ?",[mail],function(err,result){
+    mysql.query("select pwd from users where email = ?",[email],function(err,result){
         // resp.send(result);
         if(err==null){
             let reciever = {
                 from: "armansingla02@gmail.com",
-                to: mail,
+                to: email,
                 subject: "Forgot Password",
                 text: "Your password is "+result[0].pwd
             }
