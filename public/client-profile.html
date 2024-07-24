@@ -36,9 +36,11 @@
     </style>
     <script>
       $(document).ready(function () {
+        let active = localStorage.getItem("activeuser");
+        $("#txtClientEmail").val(active);
         $("#btnLogout").click(function () {
           localStorage.removeItem("activeuser");
-          location.href = "/index";
+          location.href = "/index.html";
           return;
         });
 
@@ -145,6 +147,7 @@
                   class="form-control mt-1 mb-4"
                   id="txtClientEmail"
                   placeholder="e.john@example.com"
+                  readonly
                 />
               </div>
               <div class="col-md-3">
