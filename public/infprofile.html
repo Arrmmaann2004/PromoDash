@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Profile Page</title>
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
@@ -86,20 +86,20 @@
             location.href = "/infldash.html";
             return;
           })
-          $("#btnProfileSave").click(function () {
-            // alert("button clicked")
-            let obj = {
-              type:"get",
-              url: "/save-profile",
-            }
+          // $("#btnProfileSave").click(function () {
+          //   // alert("button clicked")
+          //   let obj = {
+          //     type:"get",
+          //     url: "/save-profile",
+          //   }
 
-            $.ajax(obj).done(function (resp) {
-              if(resp === "Already Saved with this email id"){
-                alert(resp);
-                return;
-              }
-            })
-          })
+          //   $.ajax(obj).done(function (resp) {
+          //     if(resp === "Already Saved with this email id"){
+          //       alert(resp);
+          //       return;
+          //     }
+          //   })
+          // })
         });
     </script>
     <style>

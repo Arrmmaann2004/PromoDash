@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>DashBoard</title>
     <link rel="stylesheet" href="style/style.css" />
     <script
       src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -26,11 +26,29 @@
       $(document).ready(function () {
         let active = localStorage.getItem("activeuser");
         $("#name").html(active.slice(0, active.indexOf("@")));
+        $("#txtSettingEmail").val(active);
 
         $("#btnLogout").click(function () {
           localStorage.removeItem("activeuser");
           location.href = "/index.html";
           return;
+        });
+        $("#changePassword").click(function () {
+          let obj = {
+            type: "get",
+            url: "/change-password-process",
+            data: {
+              txtSettingEmail: $("#txtSettingEmail").val(),
+              txtSettingOldPassword: $("#txtSettingOldPassword").val(),
+              txtSettingNewPassword: $("#txtSettingNewPassword").val(),
+              txtSettingConfirmPassword: $("#txtSettingConfirmPassword").val(),
+            },
+          };
+          $.ajax(obj).done(function (resp) {
+            alert(resp);
+            if (resp == "Password Changed") $("#settingModal").modal("hide");
+            return;
+          });
         });
       });
     </script>
@@ -120,35 +138,8 @@
           <div class="row">
             <div class="col-md-8 offset-md-2">
               <div class="row">
-                <div class="col-md-4 d-flex justify-content-center">
-                  <div
-                    class="card"
-                    style="
-                      border: 0px;
-                      box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.367);
-                    "
-                  >
-                    <img
-                      src="uploads/influencerFinder.png"
-                      class="card-img-top"
-                      alt="..."
-                    />
-                    <div class="card-body">
-                      <center>
-                        <h5 class="card-title">Find Influencer</h5>
-                        <form>
-                          <input
-                            type="submit"
-                            formaction="/influfinder"
-                            value="Influencer Finder"
-                            class="btn btn-primary"
-                          />
-                        </form>
-                      </center>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-4 d-flex justify-content-center">
+
+                <div class="col-md-3 d-flex justify-content-center">
                   <div
                     class="card"
                     style="
@@ -176,7 +167,64 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4 d-flex justify-content-center">
+                
+                <div class="col-md-3 d-flex justify-content-center">
+                  <div
+                    class="card"
+                    style="
+                      border: 0px;
+                      box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.367);
+                    "
+                  >
+                    <img
+                      src="uploads/influencerFinder.png"
+                      class="card-img-top"
+                      alt="..."
+                    />
+                    <div class="card-body">
+                      <center>
+                        <h5 class="card-title">Find Influencer</h5>
+                        <form>
+                          <input
+                            type="submit"
+                            formaction="/influfinder"
+                            value="Influencer Finder"
+                            class="btn btn-primary"
+                          />
+                        </form>
+                      </center>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 d-flex justify-content-center">
+                  <div
+                    class="card"
+                    style="border: 0px; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.367)"
+                  >
+                    <img
+                      src="uploads/InfluDashSettings.png"
+                      class="card-img-top"
+                      alt="..."
+                    />
+                    <div class="card-body">
+                      <center>
+                        <h5 class="card-title">Setting</h5>
+                        <input
+                          type="button"
+                          class="btn btn-primary"
+                          id="btnSetting"
+                          data-bs-toggle="modal"
+                          data-bs-target="#settingModal"
+                          name="btnSetting"
+                          value="Setting"
+                        />
+                      </center>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-3 d-flex justify-content-center">
                   <div
                     class="card"
                     style="
@@ -212,5 +260,86 @@
         <p>&copy; 2024 Promodash - All rights reserved.</p>
       </footer>
     </div>
+
+    <!-- -----------------------------SETTINGS MODAL----------------------------------------- -->
+    <div
+    class="modal fade"
+    id="settingModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Settings</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form class="row g-3">
+            <div class="col-md-12">
+              <label for="txtSettingEmail" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="txtSettingEmail"
+                name="txtSettingEmail"
+              />
+            </div>
+            <div class="col-md-12">
+              <label for="txtSettingOldPassword" class="form-label"
+                >Old Password</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="txtSettingOldPassword"
+                name="txtSettingOldPassword"
+              />
+            </div>
+            <div class="col-md-12">
+              <label for="txtSettingNewPassword" class="form-label"
+                >New Password</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="txtSettingNewPassword"
+                name="txtSettingNewPassword"
+              />
+            </div>
+            <div class="col-md-12">
+              <label for="txtSettingConfirmPassword" class="form-label"
+                >Confirm Password</label
+              >
+              <input
+                type="password"
+                class="form-control"
+                id="txtSettingConfirmPassword"
+                name="txtSettingConfirmPassword"
+              />
+            </div>
+
+            <div class="col-md-12">
+              <input
+                type="button"
+                style="margin-top: 5px"
+                class="btn btn-primary"
+                id="changePassword"
+                value="Update"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- -----------------------------SETTINGS MODAL ENDS----------------------------------------- -->
   </body>
 </html>
