@@ -58,7 +58,9 @@
                     alert("Error Occured");
                 }
             }
-                
+            $scope.btnDashBoardClicked() = function() {
+                location.href = "/admin-dash.html";
+            }   
 
         });
     </script>
@@ -92,11 +94,21 @@
           >
             <!-- <ul class="navbar-nav"> -->
             <ul class="nav nav-tabs">
-              <li>
-                <!-- <button type="button" class="btn btn-outline-primary" id="login" data-bs-toggle="modal" data-bs-target="#loginModal" name="login">
-                    Login
-                </button> -->
-              </li>
+                <li class="nav-item lead">
+                    <button
+                      style="
+                        background-color: transparent;
+                        border: 0;
+                        padding-top: 8px;
+                      "
+                      type="button"
+                      ng-model="btnDashBoard"
+                      name="btnDashBoard"
+                      ng-click="btnDashBoardClicked()"
+                    >
+                      Dashboard
+                    </button>
+                  </li>
             </ul>
           </div>
         </div>
