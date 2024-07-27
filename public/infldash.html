@@ -99,6 +99,8 @@
             return;
           });
         });
+
+        $("#txtEventEmail").val(active);
       });
     </script>
   </head>
@@ -325,7 +327,7 @@
           <div class="modal-body">
             <form class="row g-3">
               <div class="col-md-12">
-                <label for="txtEventEmail" class="form-label">Email</label>
+                <label for="txtEventEmail" class="form-label" readonly>Email</label>
                 <input
                   type="email"
                   class="form-control"
@@ -421,6 +423,7 @@
               <div class="col-md-12">
                 <label for="txtSettingEmail" class="form-label">Email</label>
                 <input
+                  readonly
                   type="email"
                   class="form-control"
                   id="txtSettingEmail"
