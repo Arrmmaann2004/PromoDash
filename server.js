@@ -188,7 +188,7 @@ app.post("/save-profile", async function(req, resp) {
     [mail, name, gender, dob, address, city, contact, str, insta, fb, youtube, others, fileName],
     function(err){
         if (err == null) {
-            resp.redirect("/updatedProfile.html");
+            resp.redirect("updatedProfile.html");
         } else {
             resp.send("Already Exists");
         }
@@ -236,7 +236,7 @@ app.post("/update-profile", async function(req, resp) {
     [name, gender, dob, address, city, contact, str, insta, fb, youtube, others, fileName, mail], 
     function(err) {
         if (err == null) {
-            resp.redirect("/updatedProfile.html");
+            resp.redirect("updatedProfile.html");
         } else {
             resp.send(err.message);
         }
