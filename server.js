@@ -34,9 +34,9 @@ app.listen(3000,function(){
 })
 
 cloudinary.config({
-    cloud_name: "doicb4bys",
-    api_key: "553547862794321",
-    api_secret: "ciYER--ebOWES-7jEBcRb8yyFh4"
+    cloud_name: 'doicb4bys',
+    api_key: '553547862794321',
+    api_secret: 'ciYER--ebOWES-7jEBcRb8yyFh4'
 });
 
 app.get("/",function(req,resp){
@@ -147,7 +147,7 @@ app.get("/profile",function(req,resp){
     resp.sendFile(path);
 })
 
-app.post("/save-profile",function(req,resp){
+app.post("/save-profile",async function(req,resp){
     let mail = req.body.txtProfileEmail;
     let name = req.body.txtProfileName;
     let phone = req.body.txtProfilePhone;
@@ -177,7 +177,24 @@ app.post("/save-profile",function(req,resp){
     {
         let fileName=profilePic.name;
         let path=__dirname+"/public/uploads/"+fileName;
-        req.files.ppic.mv(path);
+        // req.files.ppic.mv(path);
+        await cloudinary.uploader.upload(path)
+        .then(function(result){
+
+            fileName = result.url;
+
+        })
+        .catch(error => {
+            // resp.send("Cloudinary upload error: " + error.message);
+            return;
+        });
+        // try {
+        //     let result = await cloudinary.uploader.upload(path);
+        //     fileName = result.url;
+        // } catch (error) {
+        //     resp.send("Cloudinary upload error: " + error.message);
+        //     return;
+        // }
     }
     
     mysql.query("insert into iprofile values(?,?,?,?,?,?,?,?,?,?,?,?,?)",[mail,name,gender,dob,address,city,contact,str,insta,fb,youtube,others,fileName],function(err){
@@ -191,7 +208,7 @@ app.post("/save-profile",function(req,resp){
     return;
 })
 
-app.post("/update-profile", function(req, resp) {
+app.post("/update-profile",async function(req, resp) {
     let mail = req.body.txtProfileEmail;
     let name = req.body.txtProfileName;
     let phone = req.body.txtProfilePhone;
@@ -223,7 +240,24 @@ app.post("/update-profile", function(req, resp) {
     
             fileName=profilepic.name;
             let path=__dirname+"/public/uploads/"+fileName;
-            req.files.ppic.mv(path);
+            // req.files.ppic.mv(path);
+            await cloudinary.uploader.upload(path)
+            .then(function(result){
+
+                fileName = result.url;
+
+            })
+            .catch(error => {
+                // resp.send("Cloudinary upload error: " + error.message);
+                return;
+            });
+            // try {
+            //     let result = await cloudinary.uploader.upload(path);
+            //     fileName = result.url;
+            // } catch (error) {
+            //     resp.send("Cloudinary upload error: " + error.message);
+            //     return;
+            // }
     }
     
 

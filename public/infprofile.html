@@ -67,7 +67,7 @@
           $("#txtProfileFacebook").val(jsonAry[0].fb);
           $("#txtProfileYoutube").val(jsonAry[0].youtube);
           $("#txtProfileOther").val(jsonAry[0].others);
-          $("#prev").prop("src", "uploads/" + jsonAry[0].picpath);
+          $("#prev").prop("src",jsonAry[0].picpath);
           $("#hdn").val(jsonAry[0].picpath);
         });
       }
