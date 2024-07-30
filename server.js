@@ -365,6 +365,22 @@ app.get("/admin-all-infl",function(req,resp){
     resp.sendFile(path);
 })
 
+app.get("/admin-fetch-client-profiles",function(req,resp){
+    mysql.query("select * from cprofile",function(err,resultjsonAry){
+        if(err==null){
+            resp.send(resultjsonAry);
+        }
+        else{
+            resp.send(err.message);
+        }
+    })
+})
+
+app.get("/admin-all-clients",function(req,resp){
+    let path = __dirname + "/public/admin-all-clients.html";
+    resp.sendFile(path);
+})
+
 app.get("/fetch-all-users",function(req,resp){
     mysql.query("select * from users",function(err,resultjsonAry){
         if(err==null){
