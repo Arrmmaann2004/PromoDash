@@ -60,7 +60,7 @@
           $("#txtProfileAddress").val(jsonAry[0].address);
           $("#txtProfileCity").val(jsonAry[0].city);
           $("#comboProfileGender").val(jsonAry[0].gender);
-          $("#ProfileDate").val(jsonAry[0].dob);
+          $("#ProfileDate").val(jsonAry[0].dob.split("T")[0]);
           let selectedFields = jsonAry[0].fields.split(",");
           $("#profileField").val(selectedFields);
           $("#txtProfileInsta").val(jsonAry[0].insta);

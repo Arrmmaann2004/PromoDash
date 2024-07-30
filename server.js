@@ -3,27 +3,24 @@ var fileUploader = require("express-fileupload");
 var nodemailer = require("nodemailer");
 var http = require("http");
 let app = express();
-var fs = require("fs");
 var cloudinary = require("cloudinary").v2;
-require('dotenv').config();
-
+var fs = require("fs");
 app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true}));
 app.use(fileUploader());
 
-let config = {
-    host: "bf1aav0ryn2ajmi0vuc4-mysql.services.clever-cloud.com",
-    user: "uaqoec9wo0wrns8k",
-    password: "cl7YRIwfgJxwcTZ2dgWp",
-    database: "bf1aav0ryn2ajmi0vuc4",
-    dateStrings: true,
-    keepAliveInitialDelay: 10000,
-    enableKeepAlive: true
-}
+// let config = {
+//     host: "127.0.0.1",
+//     user: "root",
+//     password: "Arman#2004",
+//     database: "project",
+//     dateStrings: true
+// }
+let config = "mysql://avnadmin:AVNS_C0Nfsys9G38c2YoDyHX@mysql-23613a97-armaansingla2004-d757.g.aivencloud.com:20687/defaultdb"
 
 let mysql2 = require("mysql2");
+// const { setGlobalDispatcher } = require("undici-types");
 let mysql = mysql2.createConnection(config);
-
 mysql.connect(function(err){
     if(err)
         console.log(err.message);
@@ -32,13 +29,13 @@ mysql.connect(function(err){
 })
 
 app.listen(3000,function(){
-    console.log("Server is running on this port");
+    console.log("Server is running on port 3000");
 })
 
 cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET
+    cloud_name: 'doicb4bys',
+    api_key: '553547862794321',
+    api_secret: 'ciYER--ebOWES-7jEBcRb8yyFh4'
 });
 
 app.get("/",function(req,resp){
@@ -71,15 +68,16 @@ app.get("/signup-process",function(req,resp){
                 if (err) {
                     resp.send(err.message);
                 }
-                else
-                    resp.send("Email sent");
+                // else
+                //     resp.send("Email sent");
             }); 
         }
-    });
+})
     return;
 });
 
 app.get("/email-check-process",function(req,resp){
+
     mysql.query("select * from users where email like ?",["%"+req.query.txtEmail+"%"],function(err,result){
         if(err!=null)
             resp.send(err.message);
@@ -148,7 +146,7 @@ app.get("/profile",function(req,resp){
     resp.sendFile(path);
 })
 
-app.post("/save-profile", async function(req, resp) {
+app.post("/save-profile",function(req,resp){
     let mail = req.body.txtProfileEmail;
     let name = req.body.txtProfileName;
     let phone = req.body.txtProfilePhone;
@@ -163,40 +161,36 @@ app.post("/save-profile", async function(req, resp) {
     let ary = req.body.profileField;
     let others = req.body.txtProfileOther;
     let dob = req.body.ProfileDate;
-    let str = "";
-    
+    let str="";
     if(Array.isArray(ary)){
-        for(let i = 0; i < ary.length; i++){
-            str += ary[i] + ",";
+        for(i=0;i<ary.length;i++){
+            str = str + ary[i] + ",";
         }
-        str = str.slice(0, -1);
-    } else {
+        str = str.slice(0,-1);
+    }
+    else
         str = ary;
+
+    let fileName="";
+    if(req.files!=null)
+    {
+        let fileName=profilePic.name;
+        let path=__dirname+"/public/uploads/"+fileName;
+        req.files.ppic.mv(path);
     }
     
-    let fileName = "";
-    if(profilePic != null){
-        try {
-            let result = await cloudinary.uploader.upload(profilePic.tempFilePath);
-            fileName = result.secure_url; // Use the URL of the uploaded image
-        } catch (error) {
-            return resp.send(error.message);
-        }
-    }
-    
-    mysql.query("insert into iprofile values(?,?,?,?,?,?,?,?,?,?,?,?,?)",
-    [mail, name, gender, dob, address, city, contact, str, insta, fb, youtube, others, fileName],
-    function(err){
+    mysql.query("insert into iprofile values(?,?,?,?,?,?,?,?,?,?,?,?,?)",[mail,name,gender,dob,address,city,contact,str,insta,fb,youtube,others,fileName],function(err){
         if (err == null) {
             resp.redirect("updatedProfile.html");
         } else {
             resp.send("Already Exists");
         }
-    });
+    })
+   
     return;
-});
+})
 
-app.post("/update-profile", async function(req, resp) {
+app.post("/update-profile", function(req, resp) {
     let mail = req.body.txtProfileEmail;
     let name = req.body.txtProfileName;
     let phone = req.body.txtProfilePhone;
@@ -222,20 +216,19 @@ app.post("/update-profile", async function(req, resp) {
         str = ary;
     }
 
+    
     let fileName = req.body.hdn;
-    if(profilepic != null){
-        try {
-            let result = await cloudinary.uploader.upload(profilepic.tempFilePath);
-            fileName = result.secure_url; // Use the URL of the uploaded image
-        } catch (error) {
-            return resp.send(error.message);
-        }
+    if(profilepic!=null){
+    
+            fileName=profilepic.name;
+            let path=__dirname+"/public/uploads/"+fileName;
+            req.files.ppic.mv(path);
     }
     
-    mysql.query("update iprofile set iname=?, gender=?, dob=?, address=?, city=?, contact=?, fields=?, insta=?, fb=?, youtube=?, others=?, picpath=? where emailid=?", 
-    [name, gender, dob, address, city, contact, str, insta, fb, youtube, others, fileName, mail], 
-    function(err) {
+
+    mysql.query("update iprofile set iname=?, gender=?,dob=?,address=?,city=?,contact=?,fields=?, insta=?, fb=?, youtube=?, others=?, picpath=?  where emailid=?", [name,gender,dob,address,city, contact, str, insta, fb, youtube, others,fileName,  mail], function(err) {
         if (err == null) {
+            // console.log("Profile updated successfully");
             resp.redirect("updatedProfile.html");
         } else {
             resp.send(err.message);
@@ -265,7 +258,7 @@ app.get("/booking-process",function(req,resp){
     let venue = req.query.txtEventVenue;
     let city = req.query.txtEventCity;
 
-    mysql.query("insert into events values(?,?,?,?,?,?)",[email,event,date,time,city,venue],function(err){
+    mysql.query("insert into events values(null,?,?,?,?,?,?)",[email,event,date,time,city,venue],function(err){
         if(err==null)
             resp.send("Congrats");
         else
@@ -277,59 +270,65 @@ app.get("/booking-process",function(req,resp){
 app.get("/change-password-process",function(req,resp){
     let email = req.query.txtSettingEmail;
     let old = req.query.txtSettingOldPassword;
-    let newpwd = req.query.txtSettingNewPassword;
-    let renew = req.query.txtSettingRePassword;
+    let newP = req.query.txtSettingNewPassword;
+    let confirmP = req.query.txtSettingConfirmPassword;
 
-    mysql.query("update users set pwd = ? where email = ? and pwd = ?",[newpwd,email,old],function(err){
-        if(err!=null){
-            resp.send(err.message);
-        }
-        else{
+    if(newP!=confirmP){
+        resp.send("Passwords don't match");
+        return;
+    }
+    mysql.query("update users set pwd=? where email=? and pwd=?",[newP,email,old],function(err){
+        if(err==null)    
             resp.send("Password Changed");
-        }
+        else
+            resp.send(err.message);
     })
     return;
-})
+});
 
-app.get("/setting",function(req,resp){
-    let path = __dirname + "/public/setting.html";
+var aunthentication = nodemailer.createTransport({
+    service: "gmail",
+    port: 465,
+    secure: true,
+    auth: {
+        user: "armansingla02@gmail.com",
+        pass: "vzku tree aypx fphe",   
+    },
+});
+
+app.get("/forgot-password-process",function(req,resp){
+    let mail = req.query.logintxtEmail;
+
+    mysql.query("select pwd from users where email = ?",[mail],function(err,result){
+        // resp.send(result);
+        if(err==null){
+            let reciever = {
+                from: "armansingla02@gmail.com",
+                to: mail,
+                subject: "Forgot Password",
+                text: "Your password is "+result[0].pwd
+            }
+            aunthentication.sendMail(reciever, function(err, info) {
+                if (err) {
+                    resp.send(err.message);
+                }
+                else
+                    resp.send("Email sent");
+            }); 
+    };
+
+    
+    });
+
+});
+
+app.get("/event-manager-page",function(req,resp){
+    let path = __dirname + "/public/event-manager.html";
     resp.sendFile(path);
 })
 
-app.get("/logout-process",function(req,resp){
-    resp.redirect("index.html");
-})
-
-app.get("/admin",function(req,resp){
-    let path = __dirname + "/public/admin-login.html";
-    resp.sendFile(path);
-})
-
-app.get("/admin-login-process",function(req,resp){
-    let adminEmail = req.query.txtAdminEmail;
-    let adminPwd = req.query.txtAdminPwd;
-
-    mysql.query("select * from admin where adminemail = ? and adminpwd = ?",[adminEmail,adminPwd],function(err,result){
-        if(err!=null){
-            resp.send(err.message);
-        }
-        if(result.length==0){
-            resp.send("Login Failed");
-        }
-        else
-            resp.redirect("admin-dashboard.html");
-    })
-})
-
-app.get("/block-users",function(req,resp){
-    let path = __dirname + "/public/admin-block.html";
-    resp.sendFile(path);
-})
-
-app.get("/fetch-block-process",function(req,resp){
-    let utype = req.query.utype;
-
-    mysql.query("select * from users where utype = ?",[utype],function(err,resultjsonAry){
+app.get("/fetch-all-events",function(req,resp){
+    mysql.query("select * from events where emailid = ? and doe<=current_date() and tos=current_time()",[req.query.emailid],function(err,resultjsonAry){
         if(err==null){
             resp.send(resultjsonAry);
         }
@@ -339,117 +338,8 @@ app.get("/fetch-block-process",function(req,resp){
     })
 })
 
-app.get("/status-change",function(req,resp){
-    let email = req.query.emailid;
-    let status = req.query.status;
-
-    mysql.query("update users set status = ? where email = ?",[status,email],function(err){
-        if(err!=null){
-            resp.send(err.message);
-        }
-        else{
-            resp.send("Status Updated");
-        }
-    })
-})
-
-app.get("/delete-process",function(req,resp){
-    let email = req.query.emailid;
-    mysql.query("delete from users where email = ?",[email],function(err){
-        if(err!=null){
-            resp.send(err.message);
-        }
-        else{
-            resp.send("Account Deleted");
-        }
-    })
-})
-
-app.get("/fetch-users-process",function(req,resp){
-    let utype = req.query.utype;
-
-    mysql.query("select * from users where utype = ?",[utype],function(err,resultjsonAry){
-        if(err==null){
-            resp.send(resultjsonAry);
-        }
-        else{
-            resp.send(err.message);
-        }
-    })
-})
-
-app.get("/fetch-infl-profiles",function(req,resp){
-    mysql.query("select * from iprofile",[],function(err,resultjsonAry){
-        if(err==null){
-            resp.send(resultjsonAry);
-        }
-        else{
-            resp.send(err.message);
-        }
-    })
-})
-
-app.get("/delete-infl",function(req,resp){
-    let email = req.query.emailid;
-    mysql.query("delete from iprofile where emailid = ?",[email],function(err){
-        if(err==null)
-            resp.send("Influencer Removed");
-        else
-            resp.send(err.message);
-    })
-})
-
-app.get("/fetch-client-profiles",function(req,resp){
-    mysql.query("select * from cprofile",[],function(err,resultjsonAry){
-        if(err==null){
-            resp.send(resultjsonAry);
-        }
-        else{
-            resp.send(err.message);
-        }
-    })
-})
-
-app.get("/delete-client",function(req,resp){
-    let email = req.query.emailid;
-    mysql.query("delete from cprofile where email = ?",[email],function(err){
-        if(err==null)
-            resp.send("Client Removed");
-        else
-            resp.send(err.message);
-    })
-})
-
-app.get("/fetch-events-process",function(req,resp){
-    let utype = req.query.utype;
-    let email = req.query.email;
-
-    mysql.query("select * from events where email = ?",[email],function(err,resultjsonAry){
-        if(err==null){
-            resp.send(resultjsonAry);
-        }
-        else{
-            resp.send(err.message);
-        }
-    })
-})
-
-app.get("/fetch-admin-events-process",function(req,resp){
-    mysql.query("select * from events",[],function(err,resultjsonAry){
-        if(err==null){
-            resp.send(resultjsonAry);
-        }
-        else{
-            resp.send(err.message);
-        }
-    })
-})
-
-app.get("/delete-events-process",function(req,resp){
-    let email = req.query.emailid;
-    let event = req.query.event;
-
-    mysql.query("delete from events where email = ? and eventtitle = ?",[email,event],function(err){
+app.get("/delete-event",function(req,resp){
+    mysql.query("delete from events where doe = ? and tos = ?",[req.query.dos,req.query.tos],function(err){
         if(err==null)
             resp.send("Event Deleted");
         else
@@ -457,8 +347,25 @@ app.get("/delete-events-process",function(req,resp){
     })
 })
 
-app.get("/fetch-admin-infl-profiles",function(req,resp){
-    mysql.query("select * from iprofile",[],function(err,resultjsonAry){
+// -----------------------------------ADMIN-PANEL-------------------------------------
+
+app.get("/admin-dash",function(req,resp){
+    let path = __dirname + "/public/admin-dash.html";
+    resp.sendFile(path);
+});
+
+app.get("/admin-users",function(req,resp){
+    let path = __dirname + "/public/admin-users.html";
+    resp.sendFile(path);
+})
+
+app.get("/admin-all-infl",function(req,resp){
+    let path = __dirname + "/public/admin-all-infl.html";
+    resp.sendFile(path);
+})
+
+app.get("/fetch-all-users",function(req,resp){
+    mysql.query("select * from users",function(err,resultjsonAry){
         if(err==null){
             resp.send(resultjsonAry);
         }
@@ -468,8 +375,89 @@ app.get("/fetch-admin-infl-profiles",function(req,resp){
     })
 })
 
-app.get("/admin-fetch-client-profiles",function(req,resp){
-    mysql.query("select * from cprofile",[],function(err,resultjsonAry){
+app.get("/block-user",function(req,resp){
+    mysql.query("update users set status = 0 where email = ?",[req.query.email],function(err){
+        if(err==null)
+            resp.send("User Blocked");
+        else
+            resp.send(err.message);
+    })
+})
+
+app.get("/resume-user",function(req,resp){
+    mysql.query("update users set status = 1 where email = ?",[req.query.email],function(err){
+        if(err==null)
+            resp.send("User Resumed");
+        else
+            resp.send(err.message);
+    })
+})
+
+app.get("/delete-user",function(req,resp){
+    mysql.query("delete from users where email = ?",[req.query.email],function(err){
+        if(err==null)
+            resp.send("User Deleted");
+        else
+            resp.send(err.message);
+    })
+})
+
+// ------------------------------------------------CLIENT-PANEL--------------------------------------
+app.get("/influfinder",function(req,resp){
+    let path = __dirname + "/public/influ-finder.html";
+    resp.sendFile(path);
+})
+
+app.get("/fetch-all-cities", function(req, resp) {
+    mysql.query("select distinct city from iprofile where fields like ?",["%"+req.query.fields+"%"], function(err, resultJsonAry) {
+        if (err != null) {
+            resp.send(err.message);
+            return;
+        }
+        // console.log(resultJsonAry);
+        resp.send(resultJsonAry);
+    });
+});
+
+app.get("/fetch-influencers-field-city", function(req, resp) {
+
+    var sqlQuery;
+    if(req.query.city!==undefined && req.query.fields!==undefined){
+        mysql.query("select * from iprofile where city = ? && fields like ?", [req.query.city, "%" + req.query.fields + "%"], function(err, resultJsonAry) {
+            if (err != null) {
+                resp.send(err.message);
+                return;
+            }
+            // console.log(resultJsonAry);
+            resp.send(resultJsonAry);
+        });
+    }
+    else if(req.query.city!==undefined && req.query.fields===undefined){
+        mysql.query("select * from iprofile where city = ?", [req.query.city], function(err, resultJsonAry) {
+            if (err != null) {
+                resp.send(err.message);
+                return;
+            }
+            // console.log(resultJsonAry);
+            resp.send(resultJsonAry);
+        });
+    }
+    else if(req.query.city===undefined && req.query.fields!==undefined){
+        mysql.query("select * from iprofile where fields like ?", ["%" + req.query.fields + "%"], function(err, resultJsonAry) {
+            if (err != null) {
+                resp.send(err.message);
+                return;
+            }
+            // console.log(resultJsonAry);
+            resp.send(resultJsonAry);
+        });
+    }
+        
+    
+});
+
+app.get("/fetch-all-influencers",function(req,resp){
+    mysql.query("select * from iprofile",function(err,resultjsonAry){
         if(err==null){
             resp.send(resultjsonAry);
         }
@@ -477,4 +465,15 @@ app.get("/admin-fetch-client-profiles",function(req,resp){
             resp.send(err.message);
         }
     })
+})
+
+app.get("/fetch-influencers-name", function(req, resp) {
+    mysql.query("select * from iprofile where iname like ?", ["%" + req.query.iname + "%"], function(err, resultJsonAry) {
+        if (err != null) {
+            resp.send(err.message);
+            return;
+        }
+        // console.log(resultJsonAry);
+        resp.send(resultJsonAry);
+    });
 })

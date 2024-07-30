@@ -62,7 +62,7 @@
           // event.preventDefault();
           let obj = {
             type: "get",
-            url: "https://promodash-0sl4.onrender.com/forgot-password-process",
+            url: "/forgot-password-process",
             data: {
               logintxtEmail: $("#logintxtEmail").val(),
             },
@@ -88,7 +88,7 @@
             },
           };
           $.ajax(obj).done(function (resp) {
-            // alert(resp);
+            alert(resp);
             $("#signupModal").modal("hide");
             return;
           });
@@ -108,7 +108,7 @@
 
           let obj ={
             type: "get",
-            url: "https://promodash-0sl4.onrender.com/email-check-process",
+            url: "/email-check-process",
             data: {
               txtEmail: $("#txtEmail").val(),
               // txtPwd: $("#txtPwd").val(),
