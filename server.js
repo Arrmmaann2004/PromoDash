@@ -8,6 +8,7 @@ var fs = require("fs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true}));
 app.use(fileUploader());
+require('dotenv').config();
 
 // let config = {
 //     host: "127.0.0.1",
@@ -16,7 +17,7 @@ app.use(fileUploader());
 //     database: "project",
 //     dateStrings: true
 // }
-let config = "mysql://avnadmin:AVNS_C0Nfsys9G38c2YoDyHX@mysql-23613a97-armaansingla2004-d757.g.aivencloud.com:20687/defaultdb"
+let config = process.env.MYSQL_URL;
 
 let mysql2 = require("mysql2");
 // const { setGlobalDispatcher } = require("undici-types");
@@ -33,9 +34,9 @@ app.listen(3000,function(){
 })
 
 cloudinary.config({
-    cloud_name: 'doicb4bys',
-    api_key: '553547862794321',
-    api_secret: 'ciYER--ebOWES-7jEBcRb8yyFh4'
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 app.get("/",function(req,resp){
@@ -291,8 +292,8 @@ var aunthentication = nodemailer.createTransport({
     port: 465,
     secure: true,
     auth: {
-        user: "armansingla02@gmail.com",
-        pass: "vzku tree aypx fphe",   
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
     },
 });
 
