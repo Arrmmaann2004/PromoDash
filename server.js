@@ -17,11 +17,11 @@ require('dotenv').config();
 //     database: "project",
 //     dateStrings: true
 // }
-let config = "mysql://avnadmin:AVNS_C0Nfsys9G38c2YoDyHX@mysql-23613a97-armaansingla2004-d757.g.aivencloud.com:20687/defaultdb";
+let configure = "mysql://avnadmin:AVNS_C0Nfsys9G38c2YoDyHX@mysql-23613a97-armaansingla2004-d757.g.aivencloud.com:20687/defaultdb";
 
 let mysql2 = require("mysql2");
 // const { setGlobalDispatcher } = require("undici-types");
-let mysql = mysql2.createConnection(config);
+let mysql = mysql2.createConnection(configure);
 mysql.connect(function(err){
     if(err)
         console.log(err.message);
@@ -33,10 +33,17 @@ app.listen(3000,function(){
     console.log("Server is running on port 3000");
 })
 
-cloudinary.config({
-    cloud_name: 'doicb4bys',
-    api_key: '553547862794321',
-    api_secret: 'ciYER--ebOWES-7jEBcRb8yyFh4'
+// cloudinary.config({
+//     cloud_name: 'doicb4bys',
+//     api_key: '553547862794321',
+//     api_secret: 'ciYER--ebOWES-7jEBcRb8yyFh4'
+// });
+
+cloudinary.config({ 
+    cloud_name: 'ddxyeuvfe', 
+    api_key: '298667817963234', 
+    api_secret: 'CKFE8eQoxjak78J1TWBeYS0vwFU',
+    secure: true
 });
 
 app.get("/",function(req,resp){
@@ -180,9 +187,7 @@ app.post("/save-profile",async function(req,resp){
         // req.files.ppic.mv(path);
         await cloudinary.uploader.upload(path)
         .then(function(result){
-
             fileName = result.url;
-
         })
         .catch(error => {
             // resp.send("Cloudinary upload error: " + error.message);
@@ -240,15 +245,17 @@ app.post("/update-profile",async function(req, resp) {
     
             fileName=profilepic.name;
             let path=__dirname+"/public/uploads/"+fileName;
+            console.log(profilepic)
             // req.files.ppic.mv(path);
             await cloudinary.uploader.upload(path)
             .then(function(result){
 
                 fileName = result.url;
+                
 
             })
             .catch(error => {
-                // resp.send("Cloudinary upload error: " + error.message);
+                console.log("Cloudinary upload error: " + error.message);
                 return;
             });
             // try {
