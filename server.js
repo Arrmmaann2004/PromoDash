@@ -184,7 +184,7 @@ app.post("/save-profile",async function(req,resp){
     {
         let fileName=profilePic.name;
         let path=__dirname+"/public/uploads/"+fileName;
-        // req.files.ppic.mv(path);
+        req.files.ppic.mv(path);
         await cloudinary.uploader.upload(path)
         .then(function(result){
             fileName = result.url;
@@ -245,8 +245,8 @@ app.post("/update-profile",async function(req, resp) {
     
             fileName=profilepic.name;
             let path=__dirname+"/public/uploads/"+fileName;
-            console.log(profilepic)
-            // req.files.ppic.mv(path);
+            // console.log(profilepic)
+            req.files.ppic.mv(path);
             await cloudinary.uploader.upload(path)
             .then(function(result){
 
@@ -262,7 +262,7 @@ app.post("/update-profile",async function(req, resp) {
             //     let result = await cloudinary.uploader.upload(path);
             //     fileName = result.url;
             // } catch (error) {
-            //     resp.send("Cloudinary upload error: " + error.message);
+            //     console.log("Cloudinary upload error: " + error.message);
             //     return;
             // }
     }
