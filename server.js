@@ -381,7 +381,7 @@ app.get("/fetch-all-events",function(req,resp){
 })
 
 app.get("/delete-event",function(req,resp){
-    mysql.query("delete from events where doe = ? and tos = ?",[req.query.dos,req.query.tos],function(err){
+    mysql.query("delete from events where doe = ? and tos = ?",[req.query.doe,req.query.tos],function(err){
         if(err==null)
             resp.send("Event Deleted");
         else
