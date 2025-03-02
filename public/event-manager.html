@@ -60,7 +60,7 @@
             }
           };
           $scope.deleteEvent = function (doe, tos) {
-            let url = "/delete-event?doe=" + doe + "&tos=" + tos;
+            let url = "/delete-event?doe=" + encodeURIComponent(doe) + "&tos=" + encodeURIComponent(tos);
             $http.get(url).then(getResp, getErr);
             function getResp(resp) {
               $scope.showData();
