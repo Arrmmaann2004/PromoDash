@@ -370,7 +370,7 @@ app.get("/event-manager-page",function(req,resp){
 })
 
 app.get("/fetch-all-events",function(req,resp){
-    mysql.query("select * from events where emailid = ? and doe<=current_date() and tos=current_time()",[req.query.emailid],function(err,resultjsonAry){
+    mysql.query("select * from events where emailid = ? and doe>=current_date()",[req.query.emailid],function(err,resultjsonAry){
         if(err==null){
             resp.send(resultjsonAry);
         }
