@@ -169,7 +169,7 @@
             <tr ng-repeat="obj in jsonAry">
               <td>{{$index + 1}}</td>
               <td>{{obj.event}}</td>
-              <td>{{obj.doe}}</td>
+              <td>{{obj.doe.split("T")[0]}}</td>
               <td>{{obj.tos}}</td>
               <td>{{obj.city}}</td>
               <td>{{obj.venue}}</td>
