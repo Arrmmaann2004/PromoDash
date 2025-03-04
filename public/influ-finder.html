@@ -214,7 +214,7 @@
                     <div class="row">
                         <div class="col-md-3" ng-repeat="obj in jsonArraySome">
                             <div class="card" style="box-shadow: 0 3px 4px rgba(0, 0, 0, 0.367);">
-                                <img src="uploads/{{obj.picpath}}" style="height: 260px;" class="card-img-top" alt="...">
+                                <img src={{obj.picpath}} style="height: 260px;" class="card-img-top" alt="...">
                                 <ul>
                                     <h3 style="list-style-type: none; text-align: left;">{{obj.iname}}</h3>
                                     <li style="list-style-type: none; text-align: left;font-size: 15px;">{{obj.gender}}</li><br>
@@ -238,7 +238,7 @@
                         <div class="modal-body">
                             <div style="width:inherit; height:180px;">
                                 <div>
-                                    <img ng-src="{{fullDetailObj.picpath}}" width="150" height="150" style="float:left">
+                                    <img ng-src={{fullDetailObj.picpath}} width="150" height="150" style="float:left">
                                 </div>
                                 <div style="margin-left:170px;">
                                     <h3>{{fullDetailObj.iname}}</h3>

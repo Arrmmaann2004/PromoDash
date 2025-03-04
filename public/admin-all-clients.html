@@ -23,14 +23,15 @@
 
         var module = angular.module('myModule', []);
         var controller = module.controller('myController', function($scope, $http) {
-            $scope.jsonArraySome;
+            $scope.jsonArraySome = [];
 
             $scope.showclientData = function() {
-                let url = "/fetch-all-clients";
+                let url = "/admin-fetch-client-profiles";
                 $scope.jsonArraySome = null;
                 $http.get(url).then(getResp, err);
 
                 function getResp(resp) { 
+                  console.log(resp.data)
                     $scope.jsonArraySome = resp.data;
                 }
                 function err() {
@@ -49,7 +50,7 @@
         }
       </style>
 </head>
-<body ng-app="myModule" ng-controller="myController" ng-init="showinfluencerData()">
+<body ng-app="myModule" ng-controller="myController" ng-init="showclientData()">
     <div class="blur-background"></div>
     <div class="containerbody">
         <nav class="navbar navbar-expand-lg bg-body-tertiary fixed-top" data-bs-theme="dark" style="background-color: rgb(0, 0, 0); color: rgb(255, 255, 255);" id="home">

@@ -37,7 +37,10 @@
     <script>
       $(document).ready(function () {
         let active = localStorage.getItem("activeuser");
+        console.log("hi");
+        console.log(active);
         $("#txtClientEmail").val(active);
+        console.log($("#txtClientEmail").val());
         $("#btnLogout").click(function () {
           localStorage.removeItem("activeuser");
           location.href = "/index.html";
@@ -138,7 +141,7 @@
       </div>
     </nav>
     <div class="container form-container" style="background-color: rgba(255, 255, 255, 0.74); border-radius: 5%; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.522);">
-      <form class="row g-4">
+      <form method="post" class="row g-4" enctype="multipart/form-data">
         <h2 class="lead display-4 text-center">Client Profile Page</h2>
         <hr />
         <div class="row">
@@ -152,8 +155,9 @@
                   type="email"
                   class="form-control mt-1 mb-4"
                   id="txtClientEmail"
+                  name="email"
                   placeholder="e.john@example.com"
-                  
+                  readonly
                 />
               </div>
               <div class="col-md-3">
@@ -166,7 +170,7 @@
               </div>
               <div class="col-md-4">
                 <label for="txtClientName" class="form-label">Name</label>
-                <input type="text" class="form-control mb-4" id="txtClientName" />
+                <input type="text" class="form-control mb-4" id="txtClientName" name="name"/>
               </div>
               <div class="col-md-4">
                 <label for="txtClientState">State</label>
@@ -218,28 +222,30 @@
               </div>
               <div class="col-md-4">
                 <label for="txtClientCity" class="form-label">City</label>
-                <input type="text" class="form-control" id="txtClientCity" />
+                <input type="text" class="form-control" id="txtClientCity" name="city" />
               </div>
               <div class="col-md-6">
                 <label for="txtClientType" class="form-label"
                   >Individual/Organisation</label
                 >
-                <input type="text" class="form-control" id="txtClientType" />
+                <input type="text" class="form-control" id="txtClientType" name="org"/>
               </div>
               <div class="col-md-6">
                 <label for="txtClientContact" class="form-label"
                   >Contact Number</label
                 >
-                <input type="text" class="form-control" id="txtClientContact" />
+                <input type="text" class="form-control" id="txtClientContact" name="mobile" />
               </div>
               <div class="col-md-1" style="margin-top: 20px">
-                <button
+                <input
                   type="submit"
                   class="btn btn-primary"
                   formaction="/save-client-profile"
+                  method="post"
+                  value="Save"
                 >
-                  Save
-                </button>
+                  
+                </input>
               </div>
               <div class="col-md-2" style="margin-top: 20px">
                 <button

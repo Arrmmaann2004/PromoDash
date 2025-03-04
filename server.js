@@ -135,8 +135,11 @@ app.get("/client-profile-search-process",function(req,resp){
     })
 })
 
-app.get("/save-client-profile",function(req,resp){
-    mysql.query("insert into cprofile values(?,?,?,?,?,?)",[req.query.txtClientEmail,req.query.txtClientName,req.query.txtClientCity,req.query.txtClientState,req.query.txtClientType,req.query.txtClientContact],function(err){
+app.post("/save-client-profile",function(req,resp){
+    // console.log(req.body.txtClientEmail);
+    console.log("Received request:", req.body);
+    // console.log("Hi");  
+    mysql.query("insert into cprofile values(?,?,?,?,?,?)",[req.body.txtClientEmail,req.body.txtClientName,req.body.txtClientCity,req.body.txtClientState ,req.body.txtClientType,req.body.txtClientContact],function(err){
         if(err==null)
             resp.send("Data inserted");
         else
@@ -409,6 +412,8 @@ app.get("/admin-all-infl",function(req,resp){
 app.get("/admin-fetch-client-profiles",function(req,resp){
     mysql.query("select * from cprofile",function(err,resultjsonAry){
         if(err==null){
+            console.log(resultjsonAry);
+            console.log("hi");
             resp.send(resultjsonAry);
         }
         else{
@@ -453,6 +458,18 @@ app.get("/resume-user",function(req,resp){
 
 app.get("/delete-user",function(req,resp){
     mysql.query("delete from users where email = ?",[req.query.email],function(err){
+        if(err==null)
+            resp.send("User Deleted");
+        else
+            resp.send(err.message);
+    })
+    mysql.query("delete from iprofile where email = ?",[req.query.email],function(err){
+        if(err==null)
+            resp.send("User Deleted");
+        else
+            resp.send(err.message);
+    })
+    mysql.query("delete from cprofile where email = ?",[req.query.email],function(err){
         if(err==null)
             resp.send("User Deleted");
         else
