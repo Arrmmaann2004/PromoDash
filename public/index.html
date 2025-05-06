@@ -103,10 +103,10 @@
             $("#txtPwd").prop("disabled", true);
           } else {
             $("#errEmail").html("Valid");
-            // $("#txtPwd").prop("disabled", false);
+            $("#txtPwd").prop("disabled", false);
           }
 
-          let obj ={
+          let obj = {
             type: "get",
             url: "/email-check-process",
             data: {
@@ -121,19 +121,15 @@
               $("#emailExist").html("Already exists!!!");
               $("#emailExist").css("color", "red");
               $("#txtPwd").prop("disabled", true);
-            } else if(resp === "Available") {
+            } else if (resp === "Available") {
               // $("#emailExist").html("Available");
               $("#emailExist").css("display", "none");
               $("#txtPwd").prop("disabled", false);
-            } 
-            else if(txtEmail == null){
+            } else if (txtEmail == null) {
               $("#emailExist").css("display", "none");
               $("#txtPwd").prop("disabled", true);
             }
           });
-        
-
-          
         });
 
         $("#txtPwd").on("input", function () {
@@ -182,7 +178,11 @@
     >
       <div class="container-fluid">
         <a class="navbar-brand lead" href="/index">
-          <img src="uploads/logoPromo.png"  style="width: 5.89vh; height: 4.79vh;" alt="">
+          <img
+            src="uploads/logoPromo.png"
+            style="width: 5.89vh; height: 4.79vh"
+            alt=""
+          />
         </a>
         <a href="/index" class="navbar-brand lead">www.promodash.com</a>
         <button
@@ -221,7 +221,7 @@
                 type="button"
                 style="
                   background-color: transparent;
-                  border: 0;  
+                  border: 0;
                   padding-top: 8px;
                 "
                 id="signup"
@@ -247,7 +247,6 @@
               >
                 Login
               </button>
-              
             </li>
             <!-- <li class="nav-item lead">
               <a class="nav-link" href="/admin-dash">Admin Dash</a>
@@ -361,62 +360,99 @@
         </p>
         <hr class="w-50 mx-auto mb-5" />
       </div>
-      <div class="row mt-4" style="border: 1px solid black; padding: 50px; background-color: #303434;">
+      <div
+        class="row mt-4"
+        style="
+          border: 1px solid black;
+          padding: 50px;
+          background-color: #303434;
+        "
+      >
         <div class="col-md-3 d-flex">
-          <div class="card mb-4 h-100 d-flex flex-column text-center" 
-               style="border: 0; box-shadow: 2px 4px 15px rgba(247, 246, 246, 0.367);">
+          <div
+            class="card mb-4 h-100 d-flex flex-column text-center"
+            style="
+              border: 0;
+              box-shadow: 2px 4px 15px rgba(247, 246, 246, 0.367);
+            "
+          >
             <div class="card-body d-flex flex-column align-items-center">
-              <img src="uploads/collaborations.png" class="img-fluid mb-3" 
-                   alt="Collaborations" style="height: 60%; width: 100%;" />
+              <img
+                src="uploads/collaborations.png"
+                class="img-fluid mb-3"
+                alt="Collaborations"
+                style="height: 60%; width: 100%"
+              />
               <h3>Collaborations</h3>
               <p class="lead flex-grow-1">
-                Specialize in connecting companies with influencers to enhance brand visibility and marketing campaigns.
+                Specialize in connecting companies with influencers to enhance
+                brand visibility and marketing campaigns.
               </p>
             </div>
           </div>
         </div>
         <div class="col-md-3 d-flex">
-          <div class="card bg-light mb-4 h-100 d-flex flex-column text-center" 
-               style="border: 0; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.367);">
+          <div
+            class="card bg-light mb-4 h-100 d-flex flex-column text-center"
+            style="border: 0; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.367)"
+          >
             <div class="card-body d-flex flex-column align-items-center">
-              <img src="uploads/meetAndGreet.png" class="img-fluid mb-3" 
-                   alt="Meet & Greet" style="height: 100%; width: 100%;" />
+              <img
+                src="uploads/meetAndGreet.png"
+                class="img-fluid mb-3"
+                alt="Meet & Greet"
+                style="height: 100%; width: 100%"
+              />
               <h3>Meet & Greet</h3>
               <p class="lead flex-grow-1">
-                Unique opportunity for companies and influencers to engage in face-to-face interactions and build relationships.
+                Unique opportunity for companies and influencers to engage in
+                face-to-face interactions and build relationships.
               </p>
             </div>
           </div>
         </div>
         <div class="col-md-3 d-flex">
-          <div class="card bg-light mb-4 h-100 d-flex flex-column text-center" 
-               style="border: 0; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.367);">
+          <div
+            class="card bg-light mb-4 h-100 d-flex flex-column text-center"
+            style="border: 0; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.367)"
+          >
             <div class="card-body d-flex flex-column align-items-center">
-              <img src="uploads/findInfluencer.png" class="img-fluid mb-3" 
-                   alt="Find Influencers" style="height: 100%; width: 100%;" />
+              <img
+                src="uploads/findInfluencer.png"
+                class="img-fluid mb-3"
+                alt="Find Influencers"
+                style="height: 100%; width: 100%"
+              />
               <h3>Find Influencers</h3>
               <p class="lead flex-grow-1">
-                Designed to help companies identify and connect with the most suitable influencers for brand promotion.
+                Designed to help companies identify and connect with the most
+                suitable influencers for brand promotion.
               </p>
             </div>
           </div>
         </div>
         <div class="col-md-3 d-flex">
-          <div class="card bg-light mb-4 h-100 d-flex flex-column text-center" 
-               style="border: 0; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.367);">
+          <div
+            class="card bg-light mb-4 h-100 d-flex flex-column text-center"
+            style="border: 0; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.367)"
+          >
             <div class="card-body d-flex flex-column align-items-center">
-              <img src="uploads/promotion.png" class="img-fluid mb-3" 
-                   alt="Promotion" style="height: 100%; width: 100%;" />
+              <img
+                src="uploads/promotion.png"
+                class="img-fluid mb-3"
+                alt="Promotion"
+                style="height: 100%; width: 100%"
+              />
               <h3>Promotion</h3>
               <p class="lead flex-grow-1">
-                Crafted to elevate your brand’s presence through targeted promotional strategies, activities, and events.
+                Crafted to elevate your brand’s presence through targeted
+                promotional strategies, activities, and events.
               </p>
             </div>
           </div>
         </div>
       </div>
     </section>
-    
 
     <section class="team text-center mt-4">
       <div>
@@ -456,9 +492,10 @@
                   </div>
                 </div>
                 <p class="card-text lead">
-                  B.Tech student at NIT Jalandhar,<br>
-                  Skilled in Java Networking <br>and Information Security, <br />
-                   created a project in java Networking <br> 
+                  B.Tech student at NIT Jalandhar,<br />
+                  Skilled in Java Networking <br />and Information Security,
+                  <br />
+                  created a project in java Networking <br />
                 </p>
               </div>
               <div class="col-md-6 d-flex flex-column align-items-center">
@@ -564,13 +601,19 @@
                 <a href="#home" class="text-white text-decoration-none">Home</a>
               </li>
               <li>
-                <a href="#ourservices" class="text-white text-decoration-none">Our Services</a>
+                <a href="#ourservices" class="text-white text-decoration-none"
+                  >Our Services</a
+                >
               </li>
               <li>
-                <a href="#ourteam" class="text-white text-decoration-none">Our Team</a>
+                <a href="#ourteam" class="text-white text-decoration-none"
+                  >Our Team</a
+                >
               </li>
               <li>
-                <a href="#reachus" class="text-white text-decoration-none">Reach Us</a>
+                <a href="#reachus" class="text-white text-decoration-none"
+                  >Reach Us</a
+                >
               </li>
             </ul>
           </div>
@@ -580,17 +623,29 @@
             <div class="text-center">
               <ul class="list-unstyled d-inline-flex">
                 <li class="me-3">
-                  <a href="https://www.facebook.com/arman.singla.501" target="_blank" class="text-white text-decoration-none">
+                  <a
+                    href="https://www.facebook.com/arman.singla.501"
+                    target="_blank"
+                    class="text-white text-decoration-none"
+                  >
                     <i class="fab fa-facebook-f"></i>
                   </a>
                 </li>
                 <li class="me-3">
-                  <a href="https://www.linkedin.com/in/arman-singla-b97bb1318/" target="_blank" class="text-white text-decoration-none">
+                  <a
+                    href="https://www.linkedin.com/in/arman-singla-b97bb1318/"
+                    target="_blank"
+                    class="text-white text-decoration-none"
+                  >
                     <i class="fab fa-linkedin-in"></i>
                   </a>
                 </li>
                 <li>
-                  <a href="https://www.instagram.com/singla._.arman/" target="_blank" class="text-white text-decoration-none">
+                  <a
+                    href="https://www.instagram.com/singla._.arman/"
+                    target="_blank"
+                    class="text-white text-decoration-none"
+                  >
                     <i class="fab fa-instagram"></i>
                   </a>
                 </li>
@@ -603,7 +658,6 @@
         </div>
       </div>
     </footer>
-    
 
     <!-- SignUp Modal -->
     <div
