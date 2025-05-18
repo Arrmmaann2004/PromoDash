@@ -88,18 +88,23 @@
                 let user = localStorage.getItem("activeuser");
                 let influencer = $scope.jsonArraySome[$scope.selectedInfluencerIndex].emailid;
                 let message = $scope.message;
+                let cname = $scope.cname;
+                if (cname == null || cname == "") {
+                    alert("Please enter your name.");
+                    return;
+                }
                 if (message == null || message == "") {
                     alert("Please enter a message.");
                     return;
                 }
-                console.log("User:", user);
-                console.log("Influencer:", influencer);
-                console.log("Message:", message);
+                // console.log("User:", user);
+                // console.log("Influencer:", influencer);
+                // console.log("Message:", message);
                 if (user == null) {
                     alert("Please login to send request.");
                     return;
                 }
-                let url = "/send-request?user=" + user + "&influencer=" + influencer + "&message=" + message;
+                let url = "/send-request?user=" + user + "&influencer=" + influencer + "&message=" + message + "&cname=" + cname;
                 $http.get(url).then(getData, getErr);
                 function getData(resp) {
                     alert(resp.data);
@@ -331,6 +336,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
+                    Organisation Name<input type="text" id="cname" ng-model="cname" class="form-control"
+                        placeholder="Type your name here...">
                     Message <input type="text" id="message" ng-model="message" class="form-control"
                         placeholder="Type your message here...">
                 </div>

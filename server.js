@@ -597,10 +597,10 @@ app.get("/send-request", function (req, resp) {
   let user = req.query.user;
   let influencer = req.query.influencer;
   let message = req.query.message; // Retrieve the message from the query parameters
-
+    let cname = req.query.cname;
   mysql.query(
-    "INSERT INTO requests (user, influencer, status, message) VALUES (?, ?, 0, ?)",
-    [user, influencer, message],
+    "INSERT INTO requests (cname, user, influencer, status, message) VALUES (?, ?, ?, 0, ?)",
+    [cname, user, influencer, message],
     function (err) {
       if (err == null) {
         resp.send("Your Connection request Sent");
