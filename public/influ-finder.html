@@ -77,7 +77,39 @@
             $scope.viewProfile = function (index) {
                 $scope.fullDetailObj = $scope.jsonArraySome[index];
                 // Debugging statement
-                console.log("Selected Profile:", $scope.fullDetailObj);
+                // console.log("Selected Profile:", $scope.fullDetailObj);
+            };
+
+            $scope.setSelectedInfluencer = function (index) {
+                $scope.selectedInfluencerIndex = index;
+            };
+
+            $scope.sendRequest = function () {
+                let user = localStorage.getItem("activeuser");
+                let influencer = $scope.jsonArraySome[$scope.selectedInfluencerIndex].emailid;
+                let message = $scope.message;
+                if (message == null || message == "") {
+                    alert("Please enter a message.");
+                    return;
+                }
+                console.log("User:", user);
+                console.log("Influencer:", influencer);
+                console.log("Message:", message);
+                if (user == null) {
+                    alert("Please login to send request.");
+                    return;
+                }
+                let url = "/send-request?user=" + user + "&influencer=" + influencer + "&message=" + message;
+                $http.get(url).then(getData, getErr);
+                function getData(resp) {
+                    alert(resp.data);
+                    let modal = document.getElementById("messageModal");
+                    let bootstrapModal = bootstrap.Modal.getInstance(modal); // Get the Bootstrap modal instance
+                    bootstrapModal.hide();
+                }
+                function getErr() {
+                    alert("Error Occurred");
+                }
             };
 
             $scope.showAllCards();
@@ -210,9 +242,15 @@
                                             target="_blank" class="card-link">Instagram</a><br>
                                         <a href="{{obj.youtube}}" target="_blank" class="card-link">Youtube</a>
                                     </li>
+                                    <input type="button" style="margin-top: 15px; float: left; margin-right: 10px;"
+                                        data-bs-toggle="modal" data-bs-target="#moreInfoModal" value="More"
+                                        class="btn btn-primary" ng-click="viewProfile($index)" />
+
+
+
                                     <input type="button" style="margin-top: 15px; float: left;" data-bs-toggle="modal"
-                                        data-bs-target="#moreInfoModal" value="More" class="btn btn-primary"
-                                        ng-click="viewProfile($index)">
+                                        data-bs-target="#messageModal" value="Connect" class="btn btn-primary"
+                                        ng-click="setSelectedInfluencer($index)" />
                                 </ul>
                             </div>
                         </div>
@@ -282,5 +320,27 @@
                 </div>
             </div>
     </center>
+
+
+    <!-- <---------------------- Modal End ----------------------->
+    <div class="modal" tabindex="-1" id="messageModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Reason for your Connection ?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Message <input type="text" id="message" ng-model="message" class="form-control"
+                        placeholder="Type your message here...">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" ng-click="sendRequest()">Connect</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
+
 </html>

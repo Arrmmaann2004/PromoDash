@@ -135,6 +135,33 @@ app.get("/client-profile-search-process",function(req,resp){
     })
 })
 
+app.get("/show-requests",function(req,resp){
+    mysql.query("select * from requests where status = 0 and influencer = ?",[req.query.emailid],function(err,resultjsonAry){
+        if(err==null){
+            resp.send(resultjsonAry);
+        }
+        else{
+            resp.send(err.message);
+        }
+    })
+});
+
+app.get("/accept-request", function (req, resp) {
+  let id = req.query.id;
+
+  mysql.query(
+    "UPDATE requests SET status = 1 WHERE id = ?",
+    [id],
+    function (err) {
+      if (err == null) {
+        resp.send("Request accepted successfully!");
+      } else {
+        resp.send(err.message);
+      }
+    }
+  );
+});
+
 app.post("/save-client-profile",function(req,resp){
     // console.log(req.body.txtClientEmail);
     console.log("Received request:", req.body);
@@ -552,3 +579,21 @@ app.get("/fetch-influencers-name", function(req, resp) {
         resp.send(resultJsonAry);
     });
 })
+
+app.get("/send-request", function (req, resp) {
+  let user = req.query.user;
+  let influencer = req.query.influencer;
+  let message = req.query.message; // Retrieve the message from the query parameters
+
+  mysql.query(
+    "INSERT INTO requests (user, influencer, status, message) VALUES (?, ?, 0, ?)",
+    [user, influencer, message],
+    function (err) {
+      if (err == null) {
+        resp.send("Your Connection request Sent");
+      } else {
+        resp.send(err.message);
+      }
+    }
+  );
+});
