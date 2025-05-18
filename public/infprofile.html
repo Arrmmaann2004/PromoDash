@@ -107,10 +107,11 @@
         }
       };
 
-      $scope.acceptRequest = function (id) {
-    console.log("Accepting request with ID:", id);
+      $scope.acceptRequest = function (id,user) {
+        let iname = document.getElementById("txtProfileName").value;
+    console.log("Accepting request with ID:", id,user,name);
 
-    let url = '/accept-request?id=' + id;
+    let url = '/accept-request?id=' + id + '&user=' + user + '&iname=' + iname;
     $http.get(url).then(
         function getData(resp) {
             alert("Request accepted successfully!");
@@ -325,7 +326,7 @@
                 {{ item.user }}
               </button>
               <input type="button" value="Accept" class="btn btn-primary" style="margin-left: 10px"
-                ng-click="acceptRequest(item.id)" />
+                ng-click="acceptRequest(item.id,item.user)" />
             </h2>
             <div id="collapse{{ $index }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $index }}"
               data-bs-parent="#accordionExample">

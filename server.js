@@ -148,13 +148,26 @@ app.get("/show-requests",function(req,resp){
 
 app.get("/accept-request", function (req, resp) {
   let id = req.query.id;
-
+   let user = req.query.user;
+   let iname = req.query.iname;
   mysql.query(
     "UPDATE requests SET status = 1 WHERE id = ?",
     [id],
     function (err) {
       if (err == null) {
-        resp.send("Request accepted successfully!");
+        // resp.send("Request accepted successfully!");
+         let reciever = {
+           from: "armansingla02@gmail.com",
+           to: user,
+           subject: "Connection Request Accepted",
+           text: "Your Connection request has been accepted by"+" " + iname,
+         };
+         aunthentication.sendMail(reciever, function (err, info) {
+           if (err) {
+             resp.send(err.message);
+           } else 
+            resp.send("Client has been notified");
+         }); 
       } else {
         resp.send(err.message);
       }
