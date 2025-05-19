@@ -125,7 +125,7 @@ app.get("/clientprofile",function(req,resp){
 })
 
 app.get("/client-profile-search-process",function(req,resp){
-    mysql.query("select * from cprofile where email = ?",[req.query.email],function(err,resultjsonAry){
+    mysql.query("select * from cprofile where email = ?",[req.query.txtClientEmail],function(err,resultjsonAry){
         if(err==null){
             resp.send(resultjsonAry);
         }
@@ -175,17 +175,28 @@ app.get("/accept-request", function (req, resp) {
   );
 });
 
-app.post("/save-client-profile",function(req,resp){
+app.get("/save-client-profile",function(req,resp){
     // console.log(req.body.txtClientEmail);
-    console.log("Received request:", req.body);
+    console.log("Received request:", req.query);
     // console.log("Hi");  
-    mysql.query("insert into cprofile values(?,?,?,?,?,?)",[req.body.txtClientEmail,req.body.txtClientName,req.body.txtClientCity,req.body.txtClientState ,req.body.txtClientType,req.body.txtClientContact],function(err){
-        if(err==null)
-            resp.send("Data inserted");
-        else
-            resp.send(err.message);
-    })
+    mysql.query(
+      "insert into cprofile values(?,?,?,?,?,?)",
+      [
+        req.query.txtClientEmail,
+        req.query.txtClientName,
+        req.query.txtClientCity,
+        req.query.txtClientState,
+        req.query.txtClientType,
+        req.query.txtClientContact,
+      ],
+      function (err) {
+        if (err == null) resp.redirect("updatedProfile.html");
+        else resp.send(err.message);
+      }
+    );
 })
+
+
 
 app.get("/infldash",function(req,resp){
     let path = __dirname + "/public/infldash.html";

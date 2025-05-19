@@ -35,10 +35,28 @@
       }
     </style>
     <script>
+      function performSearch(email) {
+        let obj = {
+          type: "get",
+          url: "/client-profile-search-process",
+          data: {
+            txtClientEmail: email,
+          },
+        };
+
+        $.ajax(obj).done(function (resp) {
+          // console.log(resp);
+          $("#txtClientName").val(resp[0].name);
+          $("#txtClientState").val(resp[0].state);
+          $("#txtClientCity").val(resp[0].city);
+          $("#txtClientType").val(resp[0].org);
+          $("#txtClientContact").val(resp[0].mobile);
+        });
+      }
       $(document).ready(function () {
         let active = localStorage.getItem("activeuser");
         console.log("hi");
-        console.log(active);
+        performSearch(active);
         $("#txtClientEmail").val(active);
         console.log($("#txtClientEmail").val());
         $("#btnLogout").click(function () {
@@ -52,23 +70,7 @@
           return;
         });
 
-        $("#btnSearchClient").click(function () {
-          let obj = {
-            type: "get",
-            url: "/client-profile-search-process",
-            data: {
-              txtClientEmail: $("#txtClientEmail").val(),
-            },
-          };
-
-          $.ajax(obj).done(function (resp) {
-            $("#txtClientName").val(resp[0].cname);
-            $("#txtClientState").val(resp[0].state);
-            $("#txtClientCity").val(resp[0].city);
-            $("#txtClientType").val(resp[0].org);
-            $("#txtClientContact").val(resp[0].mobile);
-          });
-        });
+        
       });
     </script>
   </head>
@@ -141,7 +143,7 @@
       </div>
     </nav>
     <div class="container form-container" style="background-color: rgba(255, 255, 255, 0.74); border-radius: 5%; box-shadow: 2px 4px 15px rgba(0, 0, 0, 0.522);">
-      <form method="post" class="row g-4" enctype="multipart/form-data">
+      <form method="get" class="row g-4" enctype="multipart/form-data">
         <h2 class="lead display-4 text-center">Client Profile Page</h2>
         <hr />
         <div class="row">
@@ -155,29 +157,29 @@
                   type="email"
                   class="form-control mt-1 mb-4"
                   id="txtClientEmail"
-                  name="email"
+                  name="txtClientEmail"
                   placeholder="e.john@example.com"
                   readonly
                 />
               </div>
               <div class="col-md-3">
-                <input
+                <!-- <input
                   type="button"
                   class="btn btn-primary mt-5 "
                   id="btnSearchClient"
                   value="Search"
-                />
+                /> -->
               </div>
               <div class="col-md-4">
                 <label for="txtClientName" class="form-label">Name</label>
-                <input type="text" class="form-control mb-4" id="txtClientName" name="name"/>
+                <input type="text" class="form-control mb-4" id="txtClientName" name="txtClientName"/>
               </div>
               <div class="col-md-4">
                 <label for="txtClientState">State</label>
                 <input
                   list="indianStates"
                   id="txtClientState"
-                  name="state"
+                  name="txtClientState"
                   class="form-control mt-2"
                 />
 
@@ -222,32 +224,32 @@
               </div>
               <div class="col-md-4">
                 <label for="txtClientCity" class="form-label">City</label>
-                <input type="text" class="form-control" id="txtClientCity" name="city" />
+                <input type="text" class="form-control" id="txtClientCity" name="txtClientCity" />
               </div>
               <div class="col-md-6">
                 <label for="txtClientType" class="form-label"
                   >Individual/Organisation</label
                 >
-                <input type="text" class="form-control" id="txtClientType" name="org"/>
+                <input type="text" class="form-control" id="txtClientType" name="txtClientType"/>
               </div>
               <div class="col-md-6">
                 <label for="txtClientContact" class="form-label"
                   >Contact Number</label
                 >
-                <input type="text" class="form-control" id="txtClientContact" name="mobile" />
+                <input type="text" class="form-control" id="txtClientContact" name="txtClientContact" />
               </div>
-              <div class="col-md-1" style="margin-top: 20px">
+              <div class="col-md-1 d-flex mt-2" >
                 <input
                   type="submit"
                   class="btn btn-primary"
                   formaction="/save-client-profile"
-                  method="post"
+                  method="get"
                   value="Save"
-                >
+                  style="margin-right: 1rem;"
+                />
                   
-                </input>
-              </div>
-              <div class="col-md-2" style="margin-top: 20px">
+              <!-- </div>
+              <div class="col-md-2" style="margin-top: 20px"> -->
                 <button
                   type="submit"
                   class="btn btn-primary"
