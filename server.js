@@ -135,6 +135,7 @@ app.get("/client-profile-search-process",function(req,resp){
     })
 })
 
+
 app.get("/show-requests",function(req,resp){
     mysql.query("select * from requests where status = 0 and influencer = ?",[req.query.emailid],function(err,resultjsonAry){
         if(err==null){
@@ -190,11 +191,32 @@ app.get("/save-client-profile",function(req,resp){
         req.query.txtClientContact,
       ],
       function (err) {
-        if (err == null) resp.redirect("updatedProfile.html");
+        if (err == null) resp.redirect("updatedProfileClient.html");
         else resp.send(err.message);
       }
     );
 })
+
+app.get("/update-client-profile", function (req, resp) {
+  // console.log(req.body.txtClientEmail);
+//   console.log("Received request:", req.query);
+  // console.log("Hi");
+  mysql.query(
+    "update cprofile set name=?,city=?,state=?,org=?,mobile=? where email=?",
+    [
+      req.query.txtClientName,
+      req.query.txtClientCity,
+      req.query.txtClientState,
+      req.query.txtClientType,
+      req.query.txtClientContact,
+      req.query.txtClientEmail
+    ],
+    function (err) {
+      if (err == null) resp.redirect("updatedProfileClient.html");
+      else resp.send(err.message);
+    }
+  );
+});
 
 
 
