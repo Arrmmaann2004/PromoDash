@@ -10,13 +10,7 @@ app.use(express.urlencoded({ extended: true}));
 app.use(fileUploader());
 require('dotenv').config();
 
-// let config = {
-//     host: "127.0.0.1",
-//     user: "root",
-//     password: "Arman#2004",
-//     database: "project",
-//     dateStrings: true
-// }
+
 let configure = "mysql://avnadmin:AVNS_C0Nfsys9G38c2YoDyHX@mysql-23613a97-armaansingla2004-d757.g.aivencloud.com:20687/defaultdb";
 
 let mysql2 = require("mysql2");
@@ -33,11 +27,7 @@ app.listen(3000,function(){
     console.log("Server is running on port 3000");
 })
 
-// cloudinary.config({
-//     cloud_name: 'doicb4bys',
-//     api_key: '553547862794321',
-//     api_secret: 'ciYER--ebOWES-7jEBcRb8yyFh4'
-// });
+
 
 cloudinary.config({ 
     cloud_name: 'ddxyeuvfe', 
